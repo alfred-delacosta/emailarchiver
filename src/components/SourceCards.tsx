@@ -6,7 +6,10 @@ export function SourceCards() {
       <article className={styles.card}>
         <div className={styles.badgeActive}>Active</div>
         <h3>Upload files</h3>
-        <p>Import .eml, .mbox, or a zip of those. Parsed locally into your library.</p>
+        <p>
+          Import .eml, .mbox, or a zip of those. Parsed into your EmailArchiver
+          session library.
+        </p>
       </article>
       <article className={`${styles.card} ${styles.soon}`}>
         <div className={styles.badgeSoon}>Coming soon</div>

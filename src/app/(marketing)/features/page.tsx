@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import styles from "../marketing.module.css";
+import { marketingMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Features",
-};
+export const metadata: Metadata = marketingMetadata({
+  title: "Upload .eml & .mbox to PDF | EmailArchiver",
+  description:
+    "Upload exported .eml or .mbox files, browse a message library, and download clean PDFs — no inbox connection required.",
+  path: "/features",
+  absoluteTitle: true,
+});
 
 export default function FeaturesPage() {
   return (

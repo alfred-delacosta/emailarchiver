@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "../marketing.module.css";
+import { marketingMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = marketingMetadata({
   title: "Pricing",
-};
+  description:
+    "EmailArchiver pricing: free personal upload and PDF export while we ship v1.",
+  path: "/pricing",
+});
 
 export default function PricingPage() {
   return (

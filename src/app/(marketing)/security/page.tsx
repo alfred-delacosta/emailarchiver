@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import styles from "../marketing.module.css";
+import { marketingMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Security",
-};
+export const metadata: Metadata = marketingMetadata({
+  title: "Security & Privacy | EmailArchiver",
+  description:
+    "How EmailArchiver handles uploaded .eml and .mbox files: session storage, server-side PDF generation, and delete-anytime controls.",
+  path: "/security",
+  absoluteTitle: true,
+});
 
 export default function SecurityPage() {
   return (

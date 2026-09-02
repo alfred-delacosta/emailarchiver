@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import styles from "../marketing.module.css";
+import { marketingMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "FAQ",
-};
+export const metadata: Metadata = marketingMetadata({
+  title: "Email to PDF FAQ | EmailArchiver",
+  description:
+    "Answers about uploading .eml and .mbox files, session storage, PDF export, and what’s coming next for EmailArchiver.",
+  path: "/faq",
+  absoluteTitle: true,
+});
 
 const faqs = [
   {
@@ -27,7 +32,7 @@ const faqs = [
 export default function FaqPage() {
   return (
     <div className={styles.prose}>
-      <h1>FAQ</h1>
+      <h1>Email to PDF FAQ</h1>
       {faqs.map((f) => (
         <div key={f.q} className={styles.faqItem}>
           <h2>{f.q}</h2>

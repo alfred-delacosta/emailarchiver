@@ -1,12 +1,15 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import styles from "./marketing.module.css";
+import { marketingMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: { absolute: "Export Emails to PDF | EmailArchiver" },
+export const metadata: Metadata = marketingMetadata({
+  title: "Export Emails to PDF | EmailArchiver",
   description:
     "EmailArchiver turns .eml and .mbox files into a browsable library and PDF exports.",
-};
+  path: "/",
+  absoluteTitle: true,
+});
 
 export default function HomePage() {
   return (

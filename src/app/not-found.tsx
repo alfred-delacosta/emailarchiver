@@ -17,6 +17,10 @@ export default function NotFound() {
       <p>
         <Link href="/">Home</Link>
         {" · "}
+        <Link href="/features">Features</Link>
+        {" · "}
+        <Link href="/security">Security</Link>
+        {" · "}
         <Link href="/app">App</Link>
       </p>
     </main>
