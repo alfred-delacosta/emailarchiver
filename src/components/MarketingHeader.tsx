@@ -24,18 +24,23 @@ export function MarketingHeader() {
           <Monogram />
           <span>EmailArchiver</span>
         </Link>
-        <nav className={styles.nav} aria-label="Marketing">
+        <nav
+          id="mkt-mobile-nav"
+          className={`${styles.nav} ${open ? styles.navOpen : ""}`}
+          aria-label="Marketing"
+        >
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               className={pathname === l.href ? styles.active : undefined}
               aria-current={pathname === l.href ? "page" : undefined}
+              onClick={() => setOpen(false)}
             >
               {l.label}
             </Link>
           ))}
-          <Link href="/app" className={styles.cta}>
+          <Link href="/app" className={styles.cta} onClick={() => setOpen(false)}>
             Open app
           </Link>
         </nav>
@@ -47,28 +52,12 @@ export function MarketingHeader() {
           aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((v) => !v)}
         >
-          Menu
+          <span className={styles.menuIcon} aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </span>
         </button>
-      </div>
-      <div
-        id="mkt-mobile-nav"
-        className={`${styles.mobilePanel} ${open ? styles.open : ""}`}
-      >
-        <nav aria-label="Marketing mobile">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={pathname === l.href ? styles.active : undefined}
-              onClick={() => setOpen(false)}
-            >
-              {l.label}
-            </Link>
-          ))}
-          <Link href="/app" className={styles.cta} onClick={() => setOpen(false)}>
-            Open app
-          </Link>
-        </nav>
       </div>
     </header>
   );
