@@ -11,7 +11,10 @@ export function SourceCards() {
           session library.
         </p>
       </article>
-      <article className={`${styles.card} ${styles.soon}`}>
+      <article
+        className={`${styles.card} ${styles.soon}`}
+        aria-disabled="true"
+      >
         <div className={styles.badgeSoon}>Coming soon</div>
         <h3>Gmail</h3>
         <p>Connect a Gmail mailbox to archive messages. OAuth not available in v1.</p>

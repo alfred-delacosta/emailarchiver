@@ -20,8 +20,13 @@ export const metadata: Metadata = {
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <a href="#main-content" className="skipLink">
+        Skip to main content
+      </a>
       <AppHeader />
-      <main className={styles.main}>{children}</main>
+      <main id="main-content" className={styles.main} tabIndex={-1}>
+        {children}
+      </main>
     </>
   );
 }

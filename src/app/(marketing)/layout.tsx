@@ -36,8 +36,13 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
       />
+      <a href="#main-content" className="skipLink">
+        Skip to main content
+      </a>
       <MarketingHeader />
-      <main className={styles.main}>{children}</main>
+      <main id="main-content" className={styles.main} tabIndex={-1}>
+        {children}
+      </main>
       <MarketingFooter />
     </>
   );

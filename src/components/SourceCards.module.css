@@ -25,6 +25,8 @@
 
 .soon {
   opacity: 0.85;
+  cursor: default;
+  user-select: none;
 }
 
 .badgeActive,

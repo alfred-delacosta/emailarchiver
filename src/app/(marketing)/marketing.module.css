@@ -149,3 +149,12 @@
   margin: 0;
   color: var(--text-muted);
 }
+
+.prose a {
+  color: var(--accent);
+}
+
+.prose a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}

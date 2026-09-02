@@ -51,6 +51,7 @@ export function Dropzone() {
     <div className={styles.wrap}>
       <div
         className={`${styles.zone} ${dragging ? styles.dragging : ""} ${busy ? styles.busy : ""}`}
+        aria-busy={busy}
         onDragEnter={(e) => {
           e.preventDefault();
           setDragging(true);
@@ -81,6 +82,16 @@ export function Dropzone() {
             }}
           />
         </label>
+        {busy && (
+          <div
+            className={styles.progressTrack}
+            role="progressbar"
+            aria-label="Parsing files"
+            aria-valuetext="Parsing"
+          >
+            <div className={styles.progressBar} />
+          </div>
+        )}
       </div>
 
       <div className={styles.privacy}>

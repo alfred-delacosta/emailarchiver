@@ -5,6 +5,28 @@ import Link from "next/link";
 import styles from "./LibraryClient.module.css";
 import type { MessageMeta } from "@/lib/types";
 
+function AttachmentIcon() {
+  return (
+    <svg
+      className={styles.attIcon}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <path
+        d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function LibraryClient() {
   const [messages, setMessages] = useState<MessageMeta[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -38,6 +60,10 @@ export function LibraryClient() {
     else setSelected(new Set(messages.map((m) => m.id)));
   }
 
+  function clearSelection() {
+    setSelected(new Set());
+  }
+
   async function exportSelected() {
     if (!selected.size) return;
     setExporting(true);
@@ -69,8 +95,13 @@ export function LibraryClient() {
   if (!messages.length) {
     return (
       <div className={styles.empty}>
-        <p>No messages yet.</p>
-        <Link href="/app">Upload emails</Link>
+        <p className={styles.emptyTitle}>Drop .eml or .mbox to get started</p>
+        <p className={styles.emptySub}>
+          Upload files to build your session library, then export to PDF.
+        </p>
+        <Link href="/app" className={styles.emptyCta}>
+          Go to Upload
+        </Link>
       </div>
     );
   }
@@ -80,9 +111,19 @@ export function LibraryClient() {
       {selected.size > 0 && (
         <div className={styles.bulk}>
           <span>{selected.size} selected</span>
-          <button type="button" onClick={exportSelected} disabled={exporting}>
-            Export {selected.size} as PDF
-          </button>
+          <div className={styles.bulkActions}>
+            <button type="button" onClick={exportSelected} disabled={exporting}>
+              Export {selected.size} as PDF
+            </button>
+            <button
+              type="button"
+              className={styles.clearBtn}
+              onClick={clearSelection}
+              disabled={exporting}
+            >
+              Clear selection
+            </button>
+          </div>
         </div>
       )}
       {progress && <p className={styles.progress}>{progress}</p>}
@@ -109,7 +150,12 @@ export function LibraryClient() {
                 <span>{m.from || "Unknown"}</span>
                 <span>·</span>
                 <span>{m.date ? new Date(m.date).toLocaleString() : "No date"}</span>
-                {m.hasAttachments && <span className={styles.att}>📎</span>}
+                {m.hasAttachments && (
+                  <span className={styles.att} title="Has attachments">
+                    <AttachmentIcon />
+                    <span className="sr-only">Has attachments</span>
+                  </span>
+                )}
               </div>
               <div className={styles.preview}>{m.preview}</div>
             </Link>
