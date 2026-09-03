@@ -9,7 +9,8 @@ Upload `.eml` / `.mbox` files (or a zip of those), parse them into a searchable 
 - Next.js App Router + TypeScript
 - **CSS Modules + global CSS** (no Tailwind) with Designer's light tokens
 - `mailparser` for `.eml`; custom mbox splitter + `mailparser` for `.mbox`
-- `pdf-lib` for reliable server-side PDF generation (no Chromium)
+- **puppeteer-core** + system Chrome/Chromium for visual HTML-to-PDF (matches Email tab)
+- `pdf-lib` text fallback when Chromium render fails, and for merging multi-message PDFs
 - File uploads via API routes; temporary storage under `.data/` (gitignored)
 
 ## Quick start
@@ -26,21 +27,28 @@ npm run build
 npm start
 ```
 
+### PDF export (Chrome / Chromium)
+
+Visual PDF export requires a Chrome or Chromium binary on the server. By default the app looks for /usr/bin/google-chrome. Override with env var PUPPETEER_EXECUTABLE_PATH set to your Chrome or Chromium path (for example /usr/bin/chromium).
+
+If launch/render fails, export falls back to a plain-text PDF via pdf-lib.
+
 ## Environment
 
-No required env vars for local v1. Session data is keyed by an `ea_session` cookie and stored on local disk under `.data/`.
+Session data is keyed by an ea_session cookie and stored on local disk under .data/.
 
 | Variable | Default | Notes |
 |----------|---------|-------|
-| *(none)* | — | Production should use object storage (S3/R2) instead of local `.data/` |
+| `PUPPETEER_EXECUTABLE_PATH` | `/usr/bin/google-chrome` | Chrome/Chromium binary for HTML-to-PDF |
+| *(other)* | — | Production should use object storage (S3/R2) instead of local .data/ |
 
 ## Limits (v1 defaults)
 
 - **25 MB** max per file
 - **50 files** per upload batch
-- Accepted: `.eml`, `.mbox`, `.zip` (containing eml/mbox)
+- Accepted: .eml, .mbox, .zip (containing eml/mbox)
 - One bad file does not fail the whole batch
-- Uploads retained until you wipe via **Settings → Delete data** or `DELETE /api/data`
+- Uploads retained until you wipe via **Settings → Delete data** or DELETE /api/data
 - Documented: production needs object storage + retention TTL; v1 uses session-scoped local disk
 
 ## Privacy
@@ -49,26 +57,25 @@ Files stay on this machine / your server. No third-party email APIs in v1. Wipe 
 
 ## Routes
 
-**Marketing (indexable):** `/`, `/features`, `/security`, `/pricing`, `/faq`
+**Marketing (indexable):** /, /features, /security, /pricing, /faq
 
-**App (`noindex,nofollow`):** `/app`, `/app/library`, `/app/preview/[id]`, `/app/exports`, `/app/settings`
+**App (noindex,nofollow):** /app, /app/library, /app/preview/[id], /app/exports, /app/settings
 
 ## API
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| POST | `/api/upload` | Accept files, parse, return message metadata |
-| GET | `/api/messages` | List messages for session |
-| GET | `/api/messages/[id]` | Message detail |
-| POST | `/api/export` | Generate PDF(s), return download URLs |
-| GET | `/api/export/[id]` | Download generated PDF |
-| DELETE | `/api/data` | Wipe session uploads & exports |
+| POST | /api/upload | Accept files, parse, return message metadata |
+| GET | /api/messages | List messages for session |
+| GET | /api/messages/[id] | Message detail |
+| POST | /api/export | Generate PDF(s), return download URLs |
+| GET | /api/export/[id] | Download generated PDF |
+| DELETE | /api/data | Wipe session uploads and exports |
 
 ## Future
 
 - Gmail source (OAuth) — Coming soon
 - Object storage for production retention
-- Richer HTML→PDF fidelity options
 
 ## License
 

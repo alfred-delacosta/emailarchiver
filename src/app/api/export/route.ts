@@ -5,6 +5,7 @@ import path from "path";
 import { getOrCreateSessionId } from "@/lib/session";
 import { exportsDir, getMessage, listExports, saveExport } from "@/lib/store";
 import { messagesToPdf } from "@/lib/pdf";
+import { messagesToHtmlPdf } from "@/lib/htmlPdf";
 import type { ExportJob, MessageDetail } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -44,7 +45,18 @@ export async function POST(req: Request) {
     if (!details.length) {
       throw new Error("No messages found for export");
     }
-    const pdf = await messagesToPdf(details);
+
+    let pdf: Uint8Array;
+    try {
+      pdf = await messagesToHtmlPdf(details);
+    } catch (htmlErr) {
+      console.error(
+        "[export] HTML PDF render failed; falling back to text PDF:",
+        htmlErr instanceof Error ? htmlErr.message : htmlErr
+      );
+      pdf = await messagesToPdf(details);
+    }
+
     await fs.mkdir(exportsDir(sessionId), { recursive: true });
     await fs.writeFile(path.join(exportsDir(sessionId), `${id}.pdf`), pdf);
     job.status = "done";

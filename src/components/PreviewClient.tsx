@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./PreviewClient.module.css";
-import { htmlToPlainText } from "@/lib/html";
 import type { MessageDetail } from "@/lib/types";
 
 export function PreviewClient({ id }: { id: string }) {
@@ -49,6 +48,17 @@ export function PreviewClient({ id }: { id: string }) {
     );
   }
   if (!message) return <p className={styles.muted}>Loading…</p>;
+
+  const emailBody = message.html ? (
+    <iframe
+      title="Email HTML"
+      className={styles.frame}
+      sandbox=""
+      srcDoc={message.html}
+    />
+  ) : (
+    <pre className={styles.text}>{message.text || "(empty)"}</pre>
+  );
 
   return (
     <div className={styles.wrap}>
@@ -100,43 +110,15 @@ export function PreviewClient({ id }: { id: string }) {
       </div>
       <div className={styles.panel}>
         {tab === "email" ? (
-          message.html ? (
-            <iframe
-              title="Email HTML"
-              className={styles.frame}
-              sandbox=""
-              srcDoc={message.html}
-            />
-          ) : (
-            <pre className={styles.text}>{message.text || "(empty)"}</pre>
-          )
+          emailBody
         ) : (
           <div className={styles.pdfPreview}>
             <p className={styles.muted}>
-              PDF layout mirrors export: header (from / subject / date), body text, attachment list.
+              Export creates a PDF of this rendered email (HTML as shown in the Email tab,
+              with from / subject / to / date header). Chrome/Chromium is used server-side
+              for visual fidelity; text fallback is used if HTML rendering fails.
             </p>
-            <div className={styles.sheet}>
-              <p>
-                <strong>Subject:</strong> {message.subject}
-              </p>
-              <p>
-                <strong>From:</strong> {message.from}
-              </p>
-              <p>
-                <strong>To:</strong> {message.to}
-              </p>
-              <p>
-                <strong>Date:</strong>{" "}
-                {message.date ? new Date(message.date).toUTCString() : "—"}
-              </p>
-              {message.attachmentNames.length > 0 && (
-                <p>
-                  <strong>Attachments:</strong> {message.attachmentNames.join(", ")}
-                </p>
-              )}
-              <hr />
-              <pre className={styles.text}>{message.text?.trim() || htmlToPlainText(message.html) || "(No message body could be extracted)"}</pre>
-            </div>
+            {emailBody}
           </div>
         )}
       </div>
