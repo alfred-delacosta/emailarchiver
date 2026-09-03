@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./PreviewClient.module.css";
+import { htmlToPlainText } from "@/lib/html";
 import type { MessageDetail } from "@/lib/types";
 
 export function PreviewClient({ id }: { id: string }) {
@@ -134,7 +135,7 @@ export function PreviewClient({ id }: { id: string }) {
                 </p>
               )}
               <hr />
-              <pre className={styles.text}>{message.text || "(No plain-text body)"}</pre>
+              <pre className={styles.text}>{message.text?.trim() || htmlToPlainText(message.html) || "(No message body could be extracted)"}</pre>
             </div>
           </div>
         )}

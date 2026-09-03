@@ -1,6 +1,7 @@
 import { simpleParser, type ParsedMail, type Attachment } from "mailparser";
 import { randomUUID } from "crypto";
 import type { MessageMeta } from "./types";
+import { htmlToPlainText } from "./html";
 
 export type ParsedMessage = {
   meta: MessageMeta;
@@ -43,8 +44,15 @@ export async function parseEmlBuffer(
   sourceFile: string
 ): Promise<ParsedMessage> {
   const mail = await simpleParser(buf);
-  const text = mail.text || "";
-  const html = typeof mail.html === "string" ? mail.html : null;
+  const html =
+    typeof mail.html === "string"
+      ? mail.html
+      : typeof (mail as { textAsHtml?: string }).textAsHtml === "string"
+        ? (mail as { textAsHtml?: string }).textAsHtml || null
+        : null;
+  // Prefer text/plain; fall back to stripped HTML (common for newsletters / GovDelivery)
+  const text =
+    (mail.text || "").trim() || htmlToPlainText(html) || "";
   const names = attachmentNames(mail.attachments);
   const meta: MessageMeta = {
     id: randomUUID(),

@@ -1,5 +1,6 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import type { MessageDetail } from "./types";
+import { htmlToPlainText } from "./html";
 
 function wrapText(text: string, maxChars: number): string[] {
   const lines: string[] = [];
@@ -99,7 +100,10 @@ export async function messagesToPdf(messages: MessageDetail[]): Promise<Uint8Arr
     });
     y -= lineHeight + 4;
 
-    const body = (msg.text || "").trim() || "(No plain-text body)";
+    const body =
+      (msg.text || "").trim() ||
+      htmlToPlainText(msg.html) ||
+      "(No message body could be extracted)";
     const bodyLines = wrapText(body, maxChars);
     for (const line of bodyLines) {
       if (y < margin + lineHeight) {
