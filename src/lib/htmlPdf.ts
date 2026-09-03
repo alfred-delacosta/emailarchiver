@@ -1,3 +1,4 @@
+import fs from "fs";
 import puppeteer from "puppeteer-core";
 import { PDFDocument } from "pdf-lib";
 import type { MessageDetail } from "./types";
@@ -11,6 +12,8 @@ export type EmailPdfInput = {
   text: string;
   attachmentNames?: string[];
 };
+
+const IMAGE_SETTLE_MS = 400;
 
 function escapeHtml(s: string): string {
   return s
@@ -121,10 +124,44 @@ function buildDocumentHtml(input: EmailPdfInput): string {
 </html>`;
 }
 
+/** Resolve a Chrome/Chromium executable across Linux, macOS, and Windows. */
+export function resolveChromePath(): string {
+  const candidates: string[] = [];
+
+  const envPath = process.env.PUPPETEER_EXECUTABLE_PATH;
+  if (envPath) candidates.push(envPath);
+
+  candidates.push(
+    "/usr/bin/google-chrome",
+    "/usr/bin/google-chrome-stable",
+    "/usr/bin/chromium",
+    "/usr/bin/chromium-browser",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+  );
+
+  const tried: string[] = [];
+  for (const p of candidates) {
+    if (!p) continue;
+    tried.push(p);
+    try {
+      if (fs.existsSync(p)) return p;
+    } catch {
+      // ignore access errors and keep trying
+    }
+  }
+
+  throw new Error(
+    `Chrome/Chromium not found. Set PUPPETEER_EXECUTABLE_PATH or install Chrome. Tried:\n${tried
+      .map((t) => `  - ${t}`)
+      .join("\n")}`
+  );
+}
+
 async function launchBrowser() {
-  const executablePath =
-    process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/google-chrome";
-  return puppeteer.launch({
+  const executablePath = resolveChromePath();
+  const browser = await puppeteer.launch({
     executablePath,
     headless: true,
     args: [
@@ -133,6 +170,34 @@ async function launchBrowser() {
       "--disable-dev-shm-usage",
     ],
   });
+  console.log(`[htmlPdf] launched Chrome at: ${executablePath}`);
+  return browser;
+}
+
+const PDF_OPTS = {
+  format: "Letter" as const,
+  printBackground: true,
+  margin: {
+    top: "0.5in",
+    bottom: "0.5in",
+    left: "0.5in",
+    right: "0.5in",
+  },
+};
+
+/**
+ * Prefer domcontentloaded so tracking pixels / never-idle network do not
+ * time out networkidle0. Brief settle delay gives images a chance to load.
+ */
+async function setEmailContent(
+  page: Awaited<ReturnType<Awaited<ReturnType<typeof launchBrowser>>["newPage"]>>,
+  html: string
+) {
+  await page.setContent(html, {
+    waitUntil: "domcontentloaded",
+    timeout: 15_000,
+  });
+  await new Promise((r) => setTimeout(r, IMAGE_SETTLE_MS));
 }
 
 /** Render a single email to a PDF buffer (visual HTML match). */
@@ -143,20 +208,8 @@ export async function renderEmailHtmlToPdf(
   const browser = await launchBrowser();
   try {
     const page = await browser.newPage();
-    await page.setContent(html, {
-      waitUntil: "networkidle0",
-      timeout: 30_000,
-    });
-    const pdf = await page.pdf({
-      format: "Letter",
-      printBackground: true,
-      margin: {
-        top: "0.5in",
-        bottom: "0.5in",
-        left: "0.5in",
-        right: "0.5in",
-      },
-    });
+    await setEmailContent(page, html);
+    const pdf = await page.pdf(PDF_OPTS);
     return new Uint8Array(pdf);
   } finally {
     await browser.close().catch(() => undefined);
@@ -199,20 +252,8 @@ export async function messagesToHtmlPdf(
       });
       const page = await browser.newPage();
       try {
-        await page.setContent(html, {
-          waitUntil: "networkidle0",
-          timeout: 30_000,
-        });
-        const pdf = await page.pdf({
-          format: "Letter",
-          printBackground: true,
-          margin: {
-            top: "0.5in",
-            bottom: "0.5in",
-            left: "0.5in",
-            right: "0.5in",
-          },
-        });
+        await setEmailContent(page, html);
+        const pdf = await page.pdf(PDF_OPTS);
         parts.push(new Uint8Array(pdf));
       } finally {
         await page.close().catch(() => undefined);

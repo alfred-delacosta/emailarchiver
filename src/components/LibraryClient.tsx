@@ -33,6 +33,7 @@ export function LibraryClient() {
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
   const [progress, setProgress] = useState<string | null>(null);
+  const [fallbackBanner, setFallbackBanner] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/messages")
@@ -67,6 +68,7 @@ export function LibraryClient() {
   async function exportSelected() {
     if (!selected.size) return;
     setExporting(true);
+    setFallbackBanner(null);
     setProgress(`Exporting ${selected.size} message${selected.size === 1 ? "" : "s"}…`);
     try {
       const res = await fetch("/api/export", {
@@ -78,6 +80,14 @@ export function LibraryClient() {
       if (!res.ok) {
         setProgress(data.error || "Export failed");
         return;
+      }
+      if (data.renderMode === "text-fallback") {
+        const reason = data.fallbackReason
+          ? `: ${data.fallbackReason}`
+          : "";
+        const msg = `PDF used text fallback (HTML render failed)${reason}`;
+        setFallbackBanner(msg);
+        window.alert(msg);
       }
       setProgress("Done — downloading…");
       if (data.downloadUrl) {
@@ -124,6 +134,11 @@ export function LibraryClient() {
               Clear selection
             </button>
           </div>
+        </div>
+      )}
+      {fallbackBanner && (
+        <div className={styles.fallbackBanner} role="alert">
+          {fallbackBanner}
         </div>
       )}
       {progress && <p className={styles.progress}>{progress}</p>}

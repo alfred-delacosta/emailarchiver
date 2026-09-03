@@ -117,3 +117,13 @@
 .error {
   color: var(--danger);
 }
+
+.fallbackBanner {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+  border-radius: var(--radius);
+  padding: 0.65rem 0.9rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+}

@@ -47,14 +47,21 @@ export async function POST(req: Request) {
     }
 
     let pdf: Uint8Array;
+    let renderMode: "html" | "text-fallback" = "html";
+    let fallbackReason: string | undefined;
+
     try {
       pdf = await messagesToHtmlPdf(details);
     } catch (htmlErr) {
+      const reason =
+        htmlErr instanceof Error ? htmlErr.message : String(htmlErr);
       console.error(
         "[export] HTML PDF render failed; falling back to text PDF:",
-        htmlErr instanceof Error ? htmlErr.message : htmlErr
+        reason
       );
       pdf = await messagesToPdf(details);
+      renderMode = "text-fallback";
+      fallbackReason = reason;
     }
 
     await fs.mkdir(exportsDir(sessionId), { recursive: true });
@@ -65,6 +72,8 @@ export async function POST(req: Request) {
     return NextResponse.json({
       export: job,
       downloadUrl: `/api/export/${id}`,
+      renderMode,
+      ...(fallbackReason ? { fallbackReason } : {}),
     });
   } catch (err) {
     job.status = "error";

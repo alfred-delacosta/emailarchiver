@@ -10,6 +10,7 @@ export function PreviewClient({ id }: { id: string }) {
   const [tab, setTab] = useState<"email" | "pdf">("email");
   const [error, setError] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
+  const [fallbackBanner, setFallbackBanner] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`/api/messages/${id}`)
@@ -23,6 +24,7 @@ export function PreviewClient({ id }: { id: string }) {
 
   async function exportPdf() {
     setExporting(true);
+    setFallbackBanner(null);
     try {
       const res = await fetch("/api/export", {
         method: "POST",
@@ -31,6 +33,14 @@ export function PreviewClient({ id }: { id: string }) {
       });
       const data = await res.json();
       if (res.ok && data.downloadUrl) {
+        if (data.renderMode === "text-fallback") {
+          const reason = data.fallbackReason
+            ? `: ${data.fallbackReason}`
+            : "";
+          const msg = `PDF used text fallback (HTML render failed)${reason}`;
+          setFallbackBanner(msg);
+          window.alert(msg);
+        }
         window.location.href = data.downloadUrl;
       } else {
         setError(data.error || "Export failed");
@@ -70,6 +80,11 @@ export function PreviewClient({ id }: { id: string }) {
           {exporting ? "Exporting…" : "Export PDF"}
         </button>
       </div>
+      {fallbackBanner && (
+        <div className={styles.fallbackBanner} role="alert">
+          {fallbackBanner}
+        </div>
+      )}
       <h1 className={styles.subject}>{message.subject}</h1>
       <div className={styles.meta}>
         <div>
