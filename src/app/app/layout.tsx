@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AppCredit } from "@/components/AppCredit";
 import { AppHeader } from "@/components/AppHeader";
 import styles from "./app.module.css";
 
@@ -27,6 +28,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <main id="main-content" className={styles.main} tabIndex={-1}>
         {children}
       </main>
+      <AppCredit />
     </>
   );
 }
