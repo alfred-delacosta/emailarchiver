@@ -26,7 +26,7 @@ export function MarketingHeader() {
           onClick={() => setOpen(false)}
         >
           <img
-            src="/lockup-horizontal.svg"
+            src="/lockup-on-paper.svg"
             alt="EmailArchiver"
             height={28}
             className={styles.lockup}

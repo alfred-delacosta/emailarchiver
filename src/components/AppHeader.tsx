@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Monogram } from "./Monogram";
 import styles from "./AppHeader.module.css";
 
 const links = [
@@ -25,9 +24,18 @@ export function AppHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <Link href="/app" className={styles.brand} onClick={() => setOpen(false)}>
-          <Monogram />
-          <span>EmailArchiver</span>
+        <Link
+          href="/app"
+          className={styles.brand}
+          aria-label="EmailArchiver"
+          onClick={() => setOpen(false)}
+        >
+          <img
+            src="/lockup-horizontal.svg"
+            alt="EmailArchiver"
+            height={28}
+            className={styles.lockup}
+          />
         </Link>
 
         <nav className={styles.nav} aria-label="App">

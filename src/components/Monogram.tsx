@@ -1,17 +1,21 @@
 type Props = {
   size?: number;
   title?: string;
+  /** Force the stacked-page archive mark even at small sizes. */
+  variant?: "flat" | "archive" | "auto";
 };
 
-/** Production EA mark from Graphic Artist (public/icon.svg). */
-export function Monogram({ size = 32, title = "EmailArchiver" }: Props) {
+/** Flat EA favicon mark by default; stacked-page archive mark when size has room (>=40) or variant is archive. */
+export function Monogram({ size = 32, title = "EmailArchiver", variant = "auto" }: Props) {
+  const useArchive = variant === "archive" || (variant === "auto" && size >= 40);
+  const src = useArchive ? "/mark-archive.svg" : "/icon.svg";
   return (
     <img
-      src="/icon.svg"
+      src={src}
       alt={title}
       width={size}
       height={size}
-      style={{ display: "block", width: size, height: size, borderRadius: 8 }}
+      style={{ display: "block", width: size, height: size, borderRadius: useArchive ? 10 : 8 }}
     />
   );
 }
