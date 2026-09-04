@@ -1,10 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="EmailArchiver">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="EmailArchiver email to PDF">
   <rect width="240" height="240" fill="#f6f7f9"/>
-  <g opacity="0.9">
-    <rect x="55" y="40" width="110" height="140" rx="10" fill="#e2e8f0"/>
-    <rect x="70" y="55" width="110" height="140" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
-    <rect x="85" y="70" width="110" height="140" rx="10" fill="#2563eb"/>
-    <path d="M175 70h20v20" fill="#1d4ed8"/>
-    <path d="M112.13720703125 159.44775390625V130.55224609375H134.85986328125V135.22802734375H118.18701171875V142.48779296875H133.60888671875V147.16357421875H118.18701171875V154.77197265625H135.70068359375V159.44775390625Z M162.07666015625 159.44775390625 159.51318359375 152.06494140625H148.50048828125L145.93701171875 159.44775390625H139.88720703125L150.42822265625 130.55224609375H157.56494140625L168.06494140625 159.44775390625ZM153.99658203125 135.00244140625 153.87353515625 135.45361328125Q153.66845703125 136.19189453125 153.38134765625 137.13525390625Q153.09423828125 138.07861328125 149.85400390625 147.51220703125H158.15966796875L155.30908203125 139.20654296875L154.42724609375 136.41748046875Z" fill="#ffffff"/>
-  </g>
+  <rect x="40" y="40" width="160" height="160" rx="32" fill="#2563eb"/>
+  <rect x="65" y="85" width="95" height="66" rx="8" fill="none" stroke="#ffffff" stroke-width="5"/>
+  <path d="M65 95 L112.5 128 L160 95" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="130" y="120" width="42" height="52" rx="4" fill="#2563eb" stroke="#ffffff" stroke-width="4"/>
+  <path d="M156 120h16v16" fill="#ffffff" opacity="0.9"/>
 </svg>

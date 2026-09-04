@@ -26,7 +26,7 @@ export function AppHeader() {
     <header className={styles.header}>
       <div className={styles.inner}>
         <div className={styles.left}>
-          <BrandLogo href="/" onNavigate={() => setOpen(false)} />
+          <BrandLogo href="/" lockup="horizontal" onNavigate={() => setOpen(false)} />
           <Link href="/" className={styles.homeBtn} onClick={() => setOpen(false)}>
             Home
           </Link>

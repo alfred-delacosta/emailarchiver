@@ -20,7 +20,7 @@ export function MarketingHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <BrandLogo href="/" onNavigate={() => setOpen(false)} />
+        <BrandLogo href="/" lockup="paper" onNavigate={() => setOpen(false)} />
         <nav
           id="mkt-mobile-nav"
           className={`${styles.nav} ${open ? styles.navOpen : ""}`}
