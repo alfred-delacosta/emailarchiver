@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { BrandLogo } from "./BrandLogo";
 import styles from "./AppHeader.module.css";
 
 const links = [
@@ -24,27 +25,12 @@ export function AppHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <Link
-          href="/app"
-          className={styles.brand}
-          aria-label="EmailArchiver"
-          onClick={() => setOpen(false)}
-        >
-          <img
-            src="/lockup-horizontal.svg"
-            alt="EmailArchiver"
-            height={28}
-            className={styles.lockup}
-          />
-          <img
-            src="/icon.svg"
-            alt=""
-            width={28}
-            height={28}
-            className={styles.markOnly}
-            aria-hidden="true"
-          />
-        </Link>
+        <div className={styles.left}>
+          <BrandLogo href="/" onNavigate={() => setOpen(false)} />
+          <Link href="/" className={styles.homeBtn} onClick={() => setOpen(false)}>
+            Home
+          </Link>
+        </div>
 
         <nav className={styles.nav} aria-label="App">
           {links.map((l) => (
@@ -76,6 +62,9 @@ export function AppHeader() {
         className={`${styles.mobilePanel} ${open ? styles.open : ""}`}
       >
         <nav aria-label="App mobile">
+          <Link href="/" onClick={() => setOpen(false)}>
+            Home
+          </Link>
           {links.map((l) => (
             <Link
               key={l.href}

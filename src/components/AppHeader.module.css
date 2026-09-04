@@ -144,26 +144,31 @@
 }
 
 
-.lockup {
-  display: block;
-  height: 28px;
-  width: auto;
-  max-width: min(200px, 55vw);
+
+.left {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
 }
 
-.markOnly {
-  display: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+.homeBtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
 }
 
-@media (max-width: 380px) {
-  .lockup {
-    display: none;
-  }
-
-  .markOnly {
-    display: block;
-  }
+.homeBtn:hover {
+  background: var(--accent-muted);
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
 }

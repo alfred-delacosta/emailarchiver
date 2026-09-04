@@ -1,0 +1,36 @@
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+  font-weight: 650;
+  text-decoration: none;
+  flex-shrink: 0;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.brand:hover {
+  text-decoration: none;
+  color: var(--text);
+}
+
+.mark {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.wordmark {
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 380px) {
+  .wordmark {
+    display: none;
+  }
+}

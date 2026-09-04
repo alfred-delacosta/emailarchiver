@@ -1,10 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="EmailArchiver">
   <rect width="64" height="64" rx="14" fill="#f6f7f9"/>
-  <!-- back page -->
-  <rect x="16" y="10" width="30" height="38" rx="3" fill="#e2e8f0"/>
-  <!-- front page with fold -->
-  <rect x="20" y="14" width="30" height="38" rx="3" fill="#2563eb"/>
-  <path d="M42 14h8v8" fill="#1d4ed8"/>
-  <path d="M42 14v8h8" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
-  <path d="M24.15703125 41.50390625V30.49609375H32.81328125V32.27734375H26.46171875V35.04296875H32.33671875V36.82421875H26.46171875V39.72265625H33.13359375V41.50390625Z M43.41015625 41.50390625 42.43359375 38.69140625H38.23828125L37.26171875 41.50390625H34.95703125L38.97265625 30.49609375H41.69140625L45.69140625 41.50390625ZM40.33203125 32.19140625 40.28515625 32.36328125Q40.20703125 32.64453125 40.09765625 33.00390625Q39.98828125 33.36328125 38.75390625 36.95703125H41.91796875L40.83203125 33.79296875L40.49609375 32.73046875Z" fill="#ffffff"/>
+  <rect x="10" y="16" width="44" height="32" rx="5" fill="#2563eb"/>
+  <path d="M12.5 19.5 32 34.5 51.5 19.5" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14 44.5 26.5 33" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+  <path d="M50 44.5 37.5 33" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
 </svg>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { BrandLogo } from "./BrandLogo";
 import styles from "./MarketingHeader.module.css";
 
 const links = [
@@ -19,27 +20,7 @@ export function MarketingHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <Link
-          href="/"
-          className={styles.brand}
-          aria-label="EmailArchiver"
-          onClick={() => setOpen(false)}
-        >
-          <img
-            src="/lockup-on-paper.svg"
-            alt="EmailArchiver"
-            height={28}
-            className={styles.lockup}
-          />
-          <img
-            src="/icon.svg"
-            alt=""
-            width={28}
-            height={28}
-            className={styles.markOnly}
-            aria-hidden="true"
-          />
-        </Link>
+        <BrandLogo href="/" onNavigate={() => setOpen(false)} />
         <nav
           id="mkt-mobile-nav"
           className={`${styles.nav} ${open ? styles.navOpen : ""}`}
