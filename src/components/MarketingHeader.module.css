@@ -155,8 +155,27 @@
   }
 }
 
+
 .lockup {
   display: block;
   height: 28px;
   width: auto;
+  max-width: min(200px, 55vw);
+}
+
+.markOnly {
+  display: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+@media (max-width: 380px) {
+  .lockup {
+    display: none;
+  }
+
+  .markOnly {
+    display: block;
+  }
 }

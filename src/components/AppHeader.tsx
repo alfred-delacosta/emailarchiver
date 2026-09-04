@@ -36,6 +36,14 @@ export function AppHeader() {
             height={28}
             className={styles.lockup}
           />
+          <img
+            src="/mark-archive.svg"
+            alt=""
+            width={28}
+            height={28}
+            className={styles.markOnly}
+            aria-hidden="true"
+          />
         </Link>
 
         <nav className={styles.nav} aria-label="App">

@@ -35,3 +35,9 @@
 .links a:hover {
   color: var(--text);
 }
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}

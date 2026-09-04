@@ -31,6 +31,14 @@ export function MarketingHeader() {
             height={28}
             className={styles.lockup}
           />
+          <img
+            src="/mark-archive.svg"
+            alt=""
+            width={28}
+            height={28}
+            className={styles.markOnly}
+            aria-hidden="true"
+          />
         </Link>
         <nav
           id="mkt-mobile-nav"
