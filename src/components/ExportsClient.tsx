@@ -20,6 +20,7 @@ export function ExportsClient() {
   if (!jobs.length) {
     return (
       <div className={styles.empty}>
+        <img src="/watermark-mark.svg" alt="" width={64} height={64} aria-hidden="true" />
         <p>No exports yet.</p>
         <Link href="/app/library">Select messages in the library</Link>
       </div>

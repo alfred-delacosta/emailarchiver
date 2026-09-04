@@ -37,6 +37,7 @@ export function marketingMetadata(opts: {
       url: `${site}${opts.path === "/" ? "" : opts.path}`,
       siteName: brand,
       type: "website",
+      images: [{ url: "/og.png", width: 1200, height: 630, alt: "EmailArchiver email to PDF" }],
     },
   };
 }

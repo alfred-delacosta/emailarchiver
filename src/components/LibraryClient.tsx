@@ -105,6 +105,13 @@ export function LibraryClient() {
   if (!messages.length) {
     return (
       <div className={styles.empty}>
+        <img
+          src="/empty-state.svg"
+          alt=""
+          width={160}
+          height={120}
+          className={styles.emptyArt}
+        />
         <p className={styles.emptyTitle}>Drop .eml or .mbox to get started</p>
         <p className={styles.emptySub}>
           Upload files to build your session library, then export to PDF.

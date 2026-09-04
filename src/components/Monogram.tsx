@@ -1,13 +1,17 @@
-import styles from "./Monogram.module.css";
+type Props = {
+  size?: number;
+  title?: string;
+};
 
-export function Monogram({ size = 32 }: { size?: number }) {
+/** Production EA mark from Graphic Artist (public/icon.svg). */
+export function Monogram({ size = 32, title = "EmailArchiver" }: Props) {
   return (
-    <span
-      className={styles.mono}
-      style={{ width: size, height: size, fontSize: size * 0.38 }}
-      aria-hidden
-    >
-      EA
-    </span>
+    <img
+      src="/icon.svg"
+      alt={title}
+      width={size}
+      height={size}
+      style={{ display: "block", width: size, height: size, borderRadius: 8 }}
+    />
   );
 }

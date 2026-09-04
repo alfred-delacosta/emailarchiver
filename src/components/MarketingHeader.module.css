@@ -154,3 +154,9 @@
     margin-top: 0.25rem;
   }
 }
+
+.lockup {
+  display: block;
+  height: 28px;
+  width: auto;
+}
