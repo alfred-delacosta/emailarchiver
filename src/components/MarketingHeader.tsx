@@ -32,7 +32,7 @@ export function MarketingHeader() {
             className={styles.lockup}
           />
           <img
-            src="/mark-archive.svg"
+            src="/icon.svg"
             alt=""
             width={28}
             height={28}
